@@ -16,16 +16,18 @@
                 </a>
                 <table class="table table-sm">
                     <tr>
-                        <th>Customer</th>
+                        <th>Customer Name</th>
                         <th>Phone</th>
                         <th>Email</th>
+                        <th></th>
                     </tr>
 
                     {% for customer in customers %}
                         <tr>
-                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.name }}</a></td>
                             <td>{{ customer.phone }}</td>
                             <td>{{ customer.email }}</td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'customer' customer.pk %}">View</a></td>
                         </tr>
                     {% endfor %}
 
