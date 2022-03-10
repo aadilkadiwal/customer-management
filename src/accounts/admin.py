@@ -18,7 +18,7 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Tag, TagAdmin)
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price',)
+    list_display = ('name', 'description', 'category', 'price',)
     list_filter = ('category', 'tags',)
     search_fields = ('name',)
 admin.site.register(Product, ProductAdmin)
