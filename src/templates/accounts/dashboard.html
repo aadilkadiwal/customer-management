@@ -27,7 +27,7 @@
                             <td>{{ customer.name }}</a></td>
                             <td>{{ customer.phone }}</td>
                             <td>{{ customer.email }}</td>
-                            <td><a class="btn btn-sm btn-info" href="{% url 'customer' customer.pk %}">View</a></td>
+                            <td><a class="btn btn-sm btn-success" href="{% url 'customer' customer.pk %}">View</a></td>
                         </tr>
                     {% endfor %}
 
@@ -39,7 +39,7 @@
             <h5>ORDERS</h5>
             <hr>
             <div class="card card-body">
-                <a class="btn btn-primary btn-sm btn-block" href="#">
+                <a class="btn btn-primary btn-sm btn-block" href="{% url 'create-order' %}">
                     Create Order
                 </a>
                 <table class="table table-sm">
@@ -57,10 +57,10 @@
                             <td>{{ order.date_created }}</td>
                             <td>{{ order.status }}</td>
                             <td>
-                                <a class="btn btn-sm btn-info" href="#">Update</a>
+                                <a class="btn btn-sm btn-info" href="{% url 'update-order' order.pk %}">Update</a>
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-danger" href="#">Remove</a>
+                                <a class="btn btn-sm btn-danger" href="{% url 'delete-order' order.pk %}">Remove</a>
                             </td>
                         </tr>
                     {% endfor %}
