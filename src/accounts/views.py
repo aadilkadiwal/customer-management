@@ -5,6 +5,10 @@ from .models import (
     Order
 )
 from .forms import OrderForm
+from django.forms import inlineformset_factory
+from .filters import (
+    OrderFilter
+)
 
 def home(request):
 
@@ -36,22 +40,28 @@ def customer(request, pk):
     orders = customer.orders.all()
     order_count = orders.count()
 
+    myfilter = OrderFilter(request.GET, queryset=orders)
+    orders = myfilter.qs
+
     context = {
-        'customer': customer, 'orders': orders, 'order_count': order_count
+        'customer': customer, 'orders': orders, 'order_count': order_count, 'myfilter': myfilter
     }
 
     return render(request, 'accounts/customer.html', context)       
 
-def create_order(request):
+def create_order(request, pk):
 
-    form = OrderForm()
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=5)
+    customer = Customer.objects.get(id=pk)
+    formset = OrderFormSet(queryset=Order.objects.none(), instance=customer)
+
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
+        formset = OrderFormSet(request.POST, instance=customer)
+        if formset.is_valid():
+            formset.save()
             return redirect('home-page')
 
-    context = {'form': form}
+    context = {'formset': formset}
 
     return render(request, 'accounts/order.html', context)
 
