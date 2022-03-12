@@ -47,6 +47,12 @@ def loginPage(request):
 
     return render(request, 'accounts/login.html', context)  
 
+def logoutPage(request):
+
+    logout(request)
+
+    return redirect('login')
+
 def home(request):
 
     customers = Customer.objects.all()
