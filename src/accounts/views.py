@@ -11,41 +11,48 @@ from .filters import (
 )
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.decorators import login_required
 
 def registerPage(request):
 
-    form = CreateUserForm()
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
-            return redirect('login')
+    if request.user.is_authenticated:
+        return redirect('home-page')
+    else:    
+        form = CreateUserForm()
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Account was created for ' + user)
+                return redirect('login')
 
-    context = {'form': form}
+        context = {'form': form}
 
-    return render(request, 'accounts/register.html', context)
+        return render(request, 'accounts/register.html', context)
 
 def loginPage(request):
 
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.user.is_authenticated:
+        return redirect('home-page')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect('home-page')
-        else:
-            messages.info(request, 'Username OR Password is incorrect')
-            return render(request, 'accounts/login.html',)  
+            if user is not None:
+                login(request, user)
+                return redirect('home-page')
+            else:
+                messages.info(request, 'Username OR Password is incorrect')
+                return render(request, 'accounts/login.html',)  
 
 
-    context = {}
+        context = {}
 
-    return render(request, 'accounts/login.html', context)  
+        return render(request, 'accounts/login.html', context)  
 
 def logoutPage(request):
 
@@ -53,6 +60,7 @@ def logoutPage(request):
 
     return redirect('login')
 
+@login_required(login_url='login')
 def home(request):
 
     customers = Customer.objects.all()
@@ -71,12 +79,14 @@ def home(request):
 
     return render(request, 'accounts/dashboard.html', context)
 
+@login_required(login_url='login')
 def products(request):
 
     products = Product.objects.all()
 
     return render(request, 'accounts/products.html', {'products': products})
 
+@login_required(login_url='login')
 def customer(request, pk):
 
     customer = Customer.objects.get(id=pk)
@@ -92,6 +102,7 @@ def customer(request, pk):
 
     return render(request, 'accounts/customer.html', context)       
 
+@login_required(login_url='login')
 def create_order(request, pk):
 
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=5)
@@ -108,6 +119,7 @@ def create_order(request, pk):
 
     return render(request, 'accounts/order.html', context)
 
+@login_required(login_url='login')
 def update_order(request, pk):
     
     order = Order.objects.get(id=pk)
@@ -122,6 +134,7 @@ def update_order(request, pk):
 
     return render(request, 'accounts/order.html', context)
 
+@login_required(login_url='login')
 def delete_order(request, pk):
 
     order = Order.objects.get(id=pk)
