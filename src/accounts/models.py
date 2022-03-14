@@ -1,8 +1,9 @@
-from pydoc import describe
+from django.contrib.auth.models import User
 from django.db import models
 from core.models import Abstract
 
 class Customer(Abstract):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=12, null=True)
     email = models.EmailField(max_length=100)
