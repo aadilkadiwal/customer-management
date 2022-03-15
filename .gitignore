@@ -1,33 +1,5 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@aadilkadiwal 
-pixeldust-in
-/
-vitalink-backend
-Private
-generated from pixeldust-in/django-project
-Code
-Issues
-Pull requests
-5
-Actions
-Projects
-Security
-Insights
-Settings
-vitalink-backend/.gitignore
-@aadilkadiwal
-aadilkadiwal Initial commit
-Latest commit 9436cfe 9 days ago
- History
- 1 contributor
-113 lines (95 sloc)  1.38 KB
-  
+*customer_profile
+
 celerybeat-schedule
 # Created by https://www.gitignore.io
 media/

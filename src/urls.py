@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 if settings.DEBUG:
     router = routers.DefaultRouter()
 else:
@@ -28,3 +31,5 @@ urlpatterns = [
     path('super-manager/', admin.site.urls),
     path('', include('accounts.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

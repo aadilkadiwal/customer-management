@@ -6,3 +6,4 @@ decouple==0.0.7
 python-decouple==3.6
 psycopg2==2.9.3
 django-filter-21.1
+pillow-9.0.1
